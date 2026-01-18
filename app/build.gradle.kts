@@ -47,16 +47,8 @@ android {
         }
 
     buildTypes {
-        named("debug") {
-            multiDexEnabled = true
-            isMinifyEnabled = false
-            isShrinkResources = false
-            setProguardFiles(listOf("proguard-project.txt"))
-            enableUnitTestCoverage = false
-            enableAndroidTestCoverage = false
-        }
 
-        named("release") {
+        release {
             signingConfig = signingConfigs.getByName("release")
             multiDexEnabled = false
             isMinifyEnabled = !isCi
