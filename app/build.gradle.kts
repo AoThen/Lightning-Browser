@@ -37,6 +37,15 @@ android {
         viewBinding = true
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("SIGN_STORE_FILE") ?: "default-path/keystore.jks")
+            storePassword = System.getenv("SIGN_STORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("SIGN_KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("SIGN_KEY_PASSWORD") ?: ""
+        }
+        }
+
     buildTypes {
         named("debug") {
             multiDexEnabled = true
@@ -48,6 +57,7 @@ android {
         }
 
         named("release") {
+            signingConfig = signingConfigs.getByName("release")
             multiDexEnabled = false
             isMinifyEnabled = !isCi
             isShrinkResources = !isCi
@@ -57,9 +67,6 @@ android {
 
             ndk {
                 abiFilters.add("arm64-v8a")
-                abiFilters.add("armeabi-v7a")
-                abiFilters.add("armeabi")
-                abiFilters.add("mips")
             }
         }
     }
